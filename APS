@@ -1,0 +1,491 @@
+Algoritmo "APS"
+// Disciplina: Algoritmos II - 842
+// Professor: Andre Cotelli
+// Alunos: Christopher Oliveira L. da Silva
+//         Marcus Phillipe Antunes Ramos
+Var
+cadastro:vetor [1..100] de inteiro
+i,j,n: inteiro
+sistema: inteiro
+
+//procedimento do menu inicial com direcional aos outros menus
+procedimento Inicial
+var
+menu_inicial: inteiro
+y:inteiro
+inicio
+repita
+   limpatela
+   escreval(" Unicarioca - Programa RG")
+   escreval("[1] Adicionar")
+   escreval("[2] Pesquisar")
+   escreval("[3] Ordenar")
+   escreval("[4] Remover")
+   escreval("[0] Sair")
+   escreva("Opção: ")
+   leia(menu_inicial)
+   escolha (menu_inicial)
+   caso 0
+   escreval("Programa Encerrado!")
+   interrompa
+   caso 1
+      Adicionar
+   caso 2
+      Pesquisar
+   caso 3
+      Ordenar
+   caso 4
+      Remover
+   outrocaso
+      escreval("Opção Inválida")
+   fimescolha
+ate (menu_inicial = 0)
+fimprocedimento
+
+//Procedimento adicionar com volta ao menu a cada elemento adicionado
+procedimento Adicionar
+var
+menu_adicionar: inteiro
+verificar:inteiro
+x:inteiro
+ver:logico
+inicio
+limpatela
+se (i>100) entao
+  repita
+     limpatela
+     escreval("Sistema Cheio!")
+     escreval("[0] Menu Principal: ")
+     leia(menu_adicionar)
+     escolha(menu_adicionar)
+     //voltar ao menu inicial
+     caso 0
+          Inicial
+     outrocaso
+          escreval("Opção Inválida")
+     fimescolha
+  ate (menu_adicionar = 0)
+fimse
+escreval(" Unicarioca - Programa RG")
+escreval("Adicionar Elemento")
+escreval("RG ",i,":")
+leia(verificar)
+para x de 1 ate i faca
+   se (verificar = cadastro[x]) entao
+      ver <- verdadeiro
+   fimse
+fimpara
+se (ver = falso) entao
+   cadastro[i] <- verificar
+   i<- i+1
+senao
+   repita
+      limpatela
+      escreval("RG já cadastrado!")
+      escreval("[0] Menu Principal: ")
+      leia(menu_adicionar)
+      escolha(menu_adicionar)
+      //voltar ao menu inicial
+      caso 0
+           Inicial
+      outrocaso
+           escreval("Opção Inválida")
+      fimescolha
+   ate (menu_adicionar = 0)
+fimse
+fimprocedimento
+
+// procedimento pesquisar com menus
+procedimento Pesquisar
+var
+opcaoum, b,d,p,c,y: inteiro
+menu_sequencial:inteiro
+menu_binaria:inteiro
+inicio
+limpatela
+escreva("UNICARIOCA - PROGRAMA RG")
+escreval("PESQUISAR ELEMENTO")
+escreval("[1] Pesquisa Sequencial")
+escreval("[2] Pesquisar Binária")
+escreval("[0] Voltar")
+escreval("Opção: ")
+leia(opcaoum)
+escolha opcaoum
+caso 1
+  escreval("Digite o RG a ser pesquisado: ")
+  leia(p)
+  c <- BuscaSequencial(p)
+  repita
+     limpatela
+     escreval("O item a ser pesquisado está na posição: " ,c )
+     escreval("[0] Voltar")
+     escreval("Opção: ")
+     leia(menu_sequencial)
+     escolha menu_sequencial
+     caso 0
+          Inicial
+     outrocaso
+          escreva("Opção Inválida!")
+     fimescolha
+  ate (menu_sequencial = 0)
+caso 2
+  limpatela
+  escreval("Para a pesquisa funcionar corretamente,")
+  escreval("O cadastro precisa estar ordenado!")
+  escreval("O vetor Cadastro está ordenado?")
+  escreval("[1] Sim, está ordenado e eu desejo continuar.")
+  escreval("[2] Não, eu preciso ordenar o Vetor.")
+  escreva("Opção: ")
+  leia(y)
+  escolha y
+  caso 1
+     escreval("Digite o RG a ser pesquisado: ")
+     leia(p)
+     d <- BuscaBinaria((i-1),p)
+     repita
+        limpatela
+        escreval("O item a ser pesquisado está na posição: " ,d )
+        escreval("[0] Voltar")
+        escreval("Opção: ")
+        leia(menu_binaria)
+        escolha menu_binaria
+        caso 0
+             Inicial
+        outrocaso
+             escreva("Opção Inválida!")
+        fimescolha
+     ate (menu_binaria = 0)
+  caso 2
+     Ordenar
+  outrocaso
+     escreva("Opção Inválida!")
+  fimescolha
+caso 0
+  Inicial
+outrocaso
+  escreva("Opção Inválida!")
+fimescolha
+fimprocedimento
+
+//procedimento busca sequencial
+Funcao BuscaSequencial (x: inteiro): inteiro
+var
+i: inteiro
+busc: inteiro
+inicio
+i <- 1
+para i de 1 ate 100 faca
+     se (x  = cadastro[i] ) entao
+        busc <- i
+     senao
+        i <- i+1
+     fimse
+fimpara
+retorne busc
+fimfuncao
+
+//procedimento busca binaria
+Funcao BuscaBinaria (n,x:inteiro) : inteiro
+var
+retorna, min, max, meio:inteiro
+inicio
+min <- 1
+max <- n
+enquanto (min <= max) faca
+   meio <- (min + max) \ 2
+   se (cadastro[meio] = x) entao
+       retorna <- meio
+       interrompa
+   senao
+      se (cadastro[meio] < x) entao
+          min <- meio + 1
+      senao
+          max <- meio - 1
+      fimse
+   fimse
+fimenquanto
+retorne retorna
+fimfuncao
+
+//Menu do Ordenar
+procedimento Ordenar
+var
+menu_ordenar:inteiro
+inicio
+repita
+   limpatela
+   escreval(" Unicarioca - Programa RG")
+   escreval(" Ordenar Vetor")
+   escreval("[1] Método Bubblesort")
+   escreval("[2] Método Seleção Direta")
+   escreval("[3] Método Inserção direta")
+   escreval("[0] Voltar")
+   escreva("Opção: ")
+   leia(menu_ordenar)
+   escolha (menu_ordenar)
+   caso 0
+        Inicial
+   caso 1
+        BubbleSort(i)
+   caso 2
+        SelectionSort(i-1)
+   caso 3
+        InsertionSort(i)
+   outrocaso
+        escreval("Opção Inválida")
+   fimescolha
+ate (menu_ordenar = 0)
+fimprocedimento
+
+//Método BubbleSort
+procedimento BubbleSort(n:inteiro)
+var
+i,j,aux:inteiro
+bubble:inteiro
+inicio
+para j de n-1 ate 1 passo -1 faca
+     para i de 1 ate j-1 faca
+          se (cadastro[i]>cadastro[i+1]) entao
+             aux<-cadastro[i]
+             cadastro[i]<-cadastro[i+1]
+             cadastro[i+1]<-aux
+           fimse
+     fimpara
+fimpara
+//Menu de escolha
+repita
+ limpatela
+ escreval("Vetor ordenado!")
+ escreval("[1] Pesquisar")
+ escreval("[2] Menu Principal")
+ escreval("[0] Sair")
+ escreva("Opção: ")
+ leia(bubble)
+ escolha(bubble)
+ caso 0
+      escreva("Programa Encerrado!")
+      interrompa
+ caso 1
+      Pesquisar
+ caso 2
+      Inicial
+ outrocaso
+      escreval("Opção Inválida")
+ fimescolha
+ate (bubble=0)
+fimprocedimento
+
+//Método Seleção Direta
+procedimento SelectionSort(n:inteiro)
+var
+i,j,min,aux:inteiro
+selection:inteiro
+inicio
+para i de 1 ate n-1 faca
+   min <- i
+   para j de i+1 ate n faca
+        se (cadastro[j] < cadastro[min]) entao
+           min <- j
+        fimse
+   fimpara
+   se (min <> i) entao
+        aux <- cadastro[i]
+        cadastro[i] <- cadastro[min]
+        cadastro[min] <- aux
+   fimse
+fimpara
+//Menu de escolha
+repita
+  limpatela
+  escreval("Vetor Ordenado!")
+  escreval("[1] Pesquisar")
+  escreval("[2] Menu Principal")
+  escreval("[0] Sair")
+  escreva("Opção: ")
+  leia(selection)
+  escolha(selection)
+  caso 0
+      escreva("Programa Encerrado!")
+      interrompa
+  caso 1
+      Pesquisar
+  caso 2
+      Inicial
+  outrocaso
+      escreval("Opção Inválida")
+  fimescolha
+ate (selection=0)
+fimprocedimento
+
+//Método Inserção Direta
+procedimento InsertionSort(n:inteiro)
+var
+i,j,aux:inteiro
+insertion:inteiro
+inicio
+para i de 2 ate n-1 faca
+    aux <- cadastro[i]
+    j <- i - 1
+    enquanto ((j>0)e(aux < cadastro[j])) faca
+        se (j=1)entao
+           aux <- cadastro[j+1]
+           cadastro[j+1] <- cadastro[j]
+           cadastro[j] <- aux
+        senao
+           cadastro[j+1] <- cadastro[j]
+           j <- j - 1
+           cadastro[j+1] <- aux
+        fimse
+    fimenquanto
+fimpara
+//Menu de escolha
+repita
+  limpatela
+  escreval("Vetor Ordenado!")
+  escreval("[1] Pesquisar")
+  escreval("[2] Menu Principal")
+  escreval("[0] Sair")
+  escreva("Opção: ")
+  leia(insertion)
+  escolha(insertion)
+  caso 0
+      escreva("Programa Encerrado!")
+      interrompa
+  caso 1
+      Pesquisar
+  caso 2
+      Inicial
+  outrocaso
+      escreval("Opção Inválida")
+  fimescolha
+ate (insertion=0)
+fimprocedimento
+
+//Menu Remover
+procedimento Remover
+var
+menu_remover:inteiro
+inicio
+repita
+   limpatela
+   se (i=1) entao
+      escreval("Não temos RG cadastrado")
+      escreva("[0] Voltar: ")
+      leia (menu_remover)
+      escolha (menu_remover)
+      //voltar ao menu inicial
+      caso 0
+           Inicial
+      fimescolha
+   fimse
+ate (menu_remover = 0)
+se (i>1) entao
+   escreval(" Unicarioca - Programa RG")
+   escreval(" Remover Elemento")
+   escreval("[1] Remover Todos")
+   escreval("[2] Remover um")
+   escreval("[0] Voltar")
+   escreva("Opção: ")
+   leia (menu_remover)
+   escolha (menu_remover)
+   //Voltar ao menu inicial
+   caso 0
+        Inicial
+   //Confirmar remover todos elementos
+   caso 1
+        i<- 1
+        Remove_todos
+   //Remover um elemento
+   caso 2
+        Remove_um
+   outrocaso
+        escreval("Opção Inválida")
+   fimescolha
+fimse
+fimprocedimento
+
+//procedimento para remover todos os elementos
+procedimento Remove_todos
+var
+confirma_remover:inteiro
+removido:inteiro
+i:inteiro
+inicio
+limpatela
+escreval("Tem certeza que deseja remover todos os elementos cadastrados?")
+escreval("[1] Sim")
+escreval("[0] Voltar")
+leia(confirma_remover)
+escolha(confirma_remover)
+//Voltar menu remover
+caso 0
+    Remover
+//Remover todos elementos
+caso 1
+ para i de 1 ate 100 faca
+      cadastro[i] <- 0
+ fimpara
+ repita
+    limpatela
+    escreval("Elementos removidos")
+    escreval ("[1] Menu Principal")
+    escreval ("[0] Sair")
+    leia(removido)
+    escolha removido
+    caso 0
+        escreval("Programa encerrado")
+        interrompa
+    caso 1
+        i<- 1
+        Inicial()
+    outrocaso
+        escreval("Opção inválida")
+    fimescolha
+ ate (removido = 0)
+fimescolha
+fimprocedimento
+
+//procedimento para remover um elemento
+procedimento Remove_um
+var
+i,j,x: inteiro
+inicio
+j<-1
+escreva("Digite a posição que deseja remover: ")
+leia(i)
+se (i>3) entao
+   escreval("Posição não disponível")
+fimse
+senao
+   enquanto (j<3) faca
+      se (i = "cadastro[i]") entao
+         cadastro[i]<- 0
+         repita
+            limpatela
+            escreval ("O item da posição ",i," foi deletado com sucesso")
+            escreval ("[1] Menu Principal")
+            escreval ("[0] Sair")
+            leia(x)
+            escolha x
+            caso 0
+                 escreval("Programa encerrado")
+                 interrompa
+            caso 1
+                 Inicial
+            outrocaso
+                 escreval("Opção inválida")
+            fimescolha
+         ate (x = 0)
+      senao
+         j<-j+1
+      fimse
+   fimenquanto
+fimse
+fimprocedimento
+
+//Início do programa
+inicio
+i<- 1
+j<- 1
+Inicial
+Fimalgoritmo
